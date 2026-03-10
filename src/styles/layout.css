@@ -1,0 +1,25 @@
+.footer {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  margin-top: 4rem;
+  border-top: 1px solid #1e2d3d;
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  color: #5a7a94;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer-text a {
+  color: #5a7a94;
+  text-decoration: none;
+  border-bottom: 1px solid #1e2d3d;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-text a:hover {
+  color: #c8d6e5;
+  border-bottom-color: #c8d6e5;
+}
