@@ -1,0 +1,32 @@
+<div id="exoplanet-container">
+  <div class="exo-header">
+    <h1>🌍 Exoplanet Explorer</h1>
+    <p class="subtitle">Descubre planetas fuera de nuestro sistema solar</p>
+  </div>
+
+  <div class="exo-filters">
+    <div class="filter-group">
+      <label for="filter-type">Tipo de búsqueda:</label>
+      <select id="filter-type">
+        <option value="kepler">Planetas Kepler confirmados</option>
+        <option value="transit">Planetas en tránsito</option>
+        <option value="habitable">Potencialmente habitables</option>
+      </select>
+    </div>
+    <button id="search-btn" class="btn-search">🔍 Buscar</button>
+    <button id="clear-btn" class="btn-clear">✕ Limpiar</button>
+  </div>
+
+  <div id="loading" class="loading hidden">
+    <div class="spinner"></div>
+    <p>Buscando exoplanetas...</p>
+  </div>
+
+  <div id="error" class="error hidden"></div>
+
+  <div id="results-info" class="results-info hidden">
+    <p>Se encontraron <span id="planet-count">0</span> planetas</p>
+  </div>
+
+  <div id="planets-grid" class="planets-grid"></div>
+</div>
