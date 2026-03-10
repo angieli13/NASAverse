@@ -1,0 +1,46 @@
+<div id="gibs-container">
+  <div class="gibs-header">
+    <h1>🛰️ GIBS - Imagenes Satelitales NASA</h1>
+    <p class="subtitle">Servicios Globales de Exploración de Imágenes</p>
+  </div>
+
+  <div class="gibs-filters">
+    <div class="filter-group">
+      <label for="layer-select">Capas disponibles:</label>
+      <select id="layer-select">
+        <option value="MODIS_Aqua_CorrectedReflectance_TrueColor">MODIS Aqua - Color Real</option>
+        <option value="MODIS_Terra_CorrectedReflectance_TrueColor">MODIS Terra - Color Real</option>
+        <option value="Corrected_Reflected_Radiation_B1">Radiación Reflejada</option>
+        <option value="Sea_Surface_Temp_Aqua_Monthly">Temperatura Superficie Marina</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="date-input">Fecha:</label>
+      <input type="date" id="date-input">
+    </div>
+    <button id="load-btn" class="btn-load">Cargar Imagen</button>
+    <button id="clear-gibs-btn" class="btn-clear">✕ Limpiar</button>
+  </div>
+
+  <div id="loading-gibs" class="loading hidden">
+    <div class="spinner"></div>
+    <p>Cargando imagen satelital...</p>
+  </div>
+
+  <div id="error-gibs" class="error hidden"></div>
+
+  <!-- Contenedor de la imagen -->
+  <div id="image-container" class="image-container hidden">
+    <h3 id="image-title"></h3>
+    <div class="image-wrapper">
+      <img id="gibs-image" src="" alt="Imagen GIBS">
+    </div>
+    <p id="image-info" class="image-info"></p>
+  </div>
+
+  <!-- JSON de la API -->
+  <div id="json-gibs-container" class="json-container hidden">
+    <h2>Parámetros de la Solicitud</h2>
+    <pre id="json-gibs-display"></pre>
+  </div>
+</div>
