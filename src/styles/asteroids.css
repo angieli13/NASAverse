@@ -1,0 +1,80 @@
+.asteroids-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.asteroids-title {
+  font-family: var(--font-titulo);
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.asteroids-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.asteroids-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.asteroid-card {
+  background-color: #0d1525;
+  border: 1px solid var(--color-accent-glow);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.asteroid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.asteroid-card.peligroso {
+  border-color: #e05555;
+  box-shadow: 0 0 15px #e0555533;
+}
+
+.asteroid-name {
+  font-family: var(--font-titulo);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+}
+
+.asteroid-badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.asteroid-card.peligroso .asteroid-badge {
+  color: #e05555;
+}
+
+.asteroid-info {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.asteroid-info li {
+  font-size: 0.9rem;
+  color: #c8d6e5;
+}
