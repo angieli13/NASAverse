@@ -1,10 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..900;1,9..40,100..900&display=swap');
 
-h1, h2, h3 {
-  font-family: 'Bebas Neue', sans-serif;
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+:root {
+  --bg-primary: #0a0f1e;
+  --bg-secondary: #0d1525;
+  --color-white: #ffffff;
+  --color-accent: #4fa3e0;
+  --color-accent-glow: #4fa3e033;
+  --font-titulo: 'Bebas Neue', sans-serif;
+  --font-texto: 'DM Sans', sans-serif;
+}
 
-body, p, span, a {
-  font-family: 'DM Sans', sans-serif;
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--color-white);
+  font-family: var(--font-texto);
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-titulo);
+  color: var(--color-white);
+  letter-spacing: 0.05em;
+}
+
+p, span, a {
+  font-family: var(--font-texto);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-white);
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
