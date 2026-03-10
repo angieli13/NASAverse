@@ -78,3 +78,9 @@
   font-size: 0.9rem;
   color: #c8d6e5;
 }
+
+.asteroid-info li i,
+.asteroid-badge i {
+  margin-right: 0.4rem;
+  color: var(--color-accent);
+}

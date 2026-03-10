@@ -33,12 +33,15 @@ async function obtenerAsteroides() {
       lista.innerHTML += `
         <div class="asteroid-card ${esPeligroso ? "peligroso" : ""}">
           <h3 class="asteroid-name">${asteroide.name}</h3>
-          <span class="asteroid-badge">${esPeligroso ? "⚠️ Peligroso" : "✅ Sin riesgo"}</span>
+          <span class="asteroid-badge">
+            <i class="fa-solid ${esPeligroso ? "fa-triangle-exclamation" : "fa-circle-check"}"></i>
+            ${esPeligroso ? "Peligroso" : "Sin riesgo"}
+          </span>
           <ul class="asteroid-info">
-            <li>📏 Diámetro: ${diametroMin} — ${diametroMax} km</li>
-            <li>💨 Velocidad: ${parseInt(velocidad).toLocaleString()} km/h</li>
-            <li>📍 Distancia: ${parseInt(distancia).toLocaleString()} km</li>
-            <li>📅 Fecha: ${fecha}</li>
+            <li><i class="fa-solid fa-ruler"></i> Diámetro: ${diametroMin} — ${diametroMax} km</li>
+            <li><i class="fa-solid fa-wind"></i> Velocidad: ${parseInt(velocidad).toLocaleString()} km/h</li>
+            <li><i class="fa-solid fa-location-dot"></i> Distancia: ${parseInt(distancia).toLocaleString()} km</li>
+            <li><i class="fa-solid fa-calendar"></i> Fecha: ${fecha}</li>
           </ul>
         </div>
       `;
