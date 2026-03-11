@@ -1,161 +1,155 @@
 import "../styles/exoplanets.css";
+
 const API_URL =
-"https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&format=json&where=koi_prad<2 and koi_teq>180 and koi_teq<303 and koi_disposition like 'CANDIDATE'";
+  "https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&format=json&where=koi_prad<2 and koi_teq>180 and koi_teq<303 and koi_disposition like 'CANDIDATE'";
 
 let planetsData = [];
+let filteredPlanets = [];
 let currentPage = 1;
-const perPage = 9;
+const perPage = 12;
+
+// Solo iconos de tierra/planeta
+const planetIcons = [
+  "fa-earth-americas",
+  "fa-earth-africa",
+  "fa-earth-asia",
+];
 
 export async function obtenerExoplanetas() {
+  const grid = document.getElementById("exoplanet-grid");
+  const loading = document.getElementById("loading");
+  const error = document.getElementById("error");
 
-const grid = document.getElementById("exoplanet-grid");
-const loading = document.getElementById("loading");
-const error = document.getElementById("error");
+  try {
+    loading.classList.remove("hidden");
 
-try {
+    const response = await fetch(API_URL);
 
-loading.classList.remove("hidden");
+    if (!response.ok) {
+      throw new Error("Error " + response.status);
+    }
 
-const response = await fetch(API_URL);
+    planetsData = await response.json();
+    filteredPlanets = [...planetsData];
 
-if (!response.ok) {
-throw new Error("Error " + response.status);
+    loading.classList.add("hidden");
+
+    mostrarPagina();
+    activarBusqueda();
+    activarPaginacion();
+  } catch (err) {
+    loading.classList.add("hidden");
+
+    error.textContent = "Error loading exoplanets";
+    error.classList.remove("hidden");
+
+    console.error(err);
+  }
 }
 
-planetsData = await response.json();
-
-loading.classList.add("hidden");
-
-mostrarPagina();
-
-activarBusqueda();
-activarPaginacion();
-
-} catch (err) {
-
-loading.classList.add("hidden");
-
-error.textContent = "Error loading exoplanets";
-error.classList.remove("hidden");
-
-console.error(err);
-
-}
-
+function obtenerIconoPlaneta(index) {
+  return planetIcons[index % planetIcons.length];
 }
 
 function mostrarPagina() {
+  const grid = document.getElementById("exoplanet-grid");
 
-const grid = document.getElementById("exoplanet-grid");
+  grid.innerHTML = "";
 
-grid.innerHTML = "";
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
 
-const start = (currentPage - 1) * perPage;
-const end = start + perPage;
+  const planets = filteredPlanets.slice(start, end);
 
-const planets = planetsData.slice(start, end);
+  planets.forEach((planet, index) => {
+    const card = document.createElement("div");
+    card.className = "exo-card";
 
-planets.forEach(planet => {
+    // Usar iconos de tierra variados
+    const iconClass = obtenerIconoPlaneta(index);
 
-const card = document.createElement("div");
-card.className = "exo-card";
+    card.innerHTML = `
+      <div class="exo-card-header">
+        <i class="fa-solid ${iconClass} exo-icon"></i>
+      </div>
+      <h3>${planet.kepoi_name || "Unknown Planet"}</h3>
+      <div class="exo-info">
+        <p>
+          <span>
+            <i class="fa-solid fa-ruler"></i> Radius
+          </span>
+          ${(planet.koi_prad || "N/A").toFixed(2)} Earth
+        </p>
+        <p>
+          <span>
+            <i class="fa-solid fa-thermometer"></i> Temperature
+          </span>
+          ${Math.round(planet.koi_teq || 0)} K
+        </p>
+        <p>
+          <span>
+            <i class="fa-solid fa-clock"></i> Orbital Period
+          </span>
+          ${(planet.koi_period || "N/A").toFixed(2)} days
+        </p>
+        <p>
+          <span>
+            <i class="fa-solid fa-circle-check"></i> Status
+          </span>
+          ${planet.koi_disposition}
+        </p>
+      </div>
+    `;
 
-card.innerHTML = `
+    grid.appendChild(card);
+  });
 
-<h3>${planet.kepoi_name || "Unknown Planet"}</h3>
-
-<div class="exo-info">
-
-<p><span>Radius</span>${planet.koi_prad || "N/A"} Earth</p>
-
-<p><span>Temperature</span>${planet.koi_teq || "N/A"} K</p>
-
-<p><span>Orbital Period</span>${planet.koi_period || "N/A"} days</p>
-
-<p><span>Status</span>${planet.koi_disposition}</p>
-
-</div>
-
-`;
-
-grid.appendChild(card);
-
-});
-
-actualizarPaginacion();
-
+  actualizarPaginacion();
 }
 
-function activarBusqueda(){
+function activarBusqueda() {
+  const search = document.getElementById("searchPlanet");
 
-const search = document.getElementById("searchPlanet");
+  search.addEventListener("input", (e) => {
+    const text = e.target.value.toLowerCase();
 
-search.addEventListener("input", e => {
+    filteredPlanets = planetsData.filter((p) =>
+      (p.kepoi_name || "").toLowerCase().includes(text)
+    );
 
-const text = e.target.value.toLowerCase();
-
-const filtrados = planetsData.filter(p =>
-(p.kepoi_name || "").toLowerCase().includes(text)
-);
-
-mostrarFiltrados(filtrados);
-
-});
-
+    currentPage = 1;
+    mostrarPagina();
+  });
 }
 
-function mostrarFiltrados(planets){
+function activarPaginacion() {
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    const totalPages = Math.ceil(filteredPlanets.length / perPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      mostrarPagina();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
 
-const grid = document.getElementById("exoplanet-grid");
-
-grid.innerHTML="";
-
-planets.slice(0,20).forEach(planet=>{
-
-const card=document.createElement("div");
-card.className="exo-card";
-
-card.innerHTML=`
-
-<h3>${planet.kepoi_name}</h3>
-
-<p>Radius: ${planet.koi_prad || "N/A"} Earth</p>
-
-<p>Temperature: ${planet.koi_teq || "N/A"} K</p>
-
-<p>Orbital: ${planet.koi_period || "N/A"} days</p>
-
-<p>Status: ${planet.koi_disposition}</p>
-
-`;
-
-grid.appendChild(card);
-
-});
-
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      mostrarPagina();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
 }
 
-function activarPaginacion(){
+function actualizarPaginacion() {
+  const totalPages = Math.ceil(filteredPlanets.length / perPage);
 
-document.getElementById("nextBtn").onclick = () => {
-currentPage++;
-mostrarPagina();
-};
+  document.getElementById("pageInfo").textContent =
+    `Page ${currentPage} of ${totalPages}`;
 
-document.getElementById("prevBtn").onclick = () => {
-if(currentPage > 1){
-currentPage--;
-mostrarPagina();
-}
-};
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
 
-}
-
-function actualizarPaginacion(){
-
-const totalPages = Math.ceil(planetsData.length / perPage);
-
-document.getElementById("pageInfo").textContent =
-`Page ${currentPage} of ${totalPages}`;
-
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === totalPages;
 }

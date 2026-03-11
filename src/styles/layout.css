@@ -1,11 +1,10 @@
-/* BACKGROUND HOME */
 body.home-page-active {
   background: url('/bhome.gif') center / cover fixed no-repeat;
 }
 
 /* BACKGROUND EN OTRAS PÁGINAS */
 body:not(.home-page-active) {
-  background-color: #000000;
+  background: url('/background.gif') center / cover fixed no-repeat; 
 }
 
 /* HEADER Y NAVBAR*/
@@ -57,8 +56,8 @@ body:not(.home-page-active) {
 
 /* HOME */
 .home {
-  min-height: calc(100vh - 200px);
-  padding: 60px 40px;
+        
+  padding: 10px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,9 +66,9 @@ body:not(.home-page-active) {
 .home-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 30px;               
   max-width: 1400px;
-  width: 100%;
+  width: 100%;               
   align-items: center;
 }
 

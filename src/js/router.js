@@ -17,7 +17,7 @@ async function loadPage(path) {
 
     appElement.innerHTML = html;
 
-    // Agregar/remover clase 
+    // Agregar-remover clase 
     if (path === "/") {
       body.classList.add("home-page-active");
     } else {

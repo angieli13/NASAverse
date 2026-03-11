@@ -4,15 +4,81 @@
   padding: 3rem 1.5rem;
 }
 
+.asteroids-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
 .asteroids-title {
   font-family: var(--font-titulo);
   font-size: clamp(2.5rem, 6vw, 5rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-white);
-  margin-bottom: 0.5rem;
-  text-align: center;
   text-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+/* BADGES DE SEGURIDAD */
+#asteroids-safety {
+  display: flex;
+  justify-content: center;
+}
+
+.safety-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.peligroso-badge {
+  background: linear-gradient(135deg, #e0555533, #e0555511);
+  border: 2px solid #e05555;
+  color: #ff6b6b;
+  box-shadow: 0 0 15px #e0555533;
+}
+
+.peligroso-badge i {
+  font-size: 1.1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.seguro-badge {
+  background: linear-gradient(135deg, #0b34e933, #0b34e911);
+  border: 2px solid #0b34e9;
+  color: var(--color-accent);
+  box-shadow: 0 0 15px #0b34e933;
 }
 
 .asteroids-subtitle {
@@ -29,6 +95,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 .asteroid-card {
@@ -54,12 +121,30 @@
   box-shadow: 0 0 40px #e0555566, 0 0 80px #e0555522;
 }
 
+.asteroid-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.asteroid-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px var(--color-accent));
+  transition: transform 0.3s ease;
+}
+
+.asteroid-card:hover .asteroid-img {
+  transform: scale(1.1) rotate(5deg);
+}
+
 .asteroid-name {
   font-family: var(--font-titulo);
   font-size: 1.4rem;
   letter-spacing: 0.05em;
   color: var(--color-white);
-  margin-bottom: 0.5rem;
 }
 
 .asteroid-badge {
@@ -91,14 +176,103 @@
   font-size: 0.9rem;
   color: #c8d6e5;
   line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.asteroid-info li i,
-.asteroid-badge i {
-  margin-right: 0.5rem;
+.asteroid-info li i {
   color: var(--color-accent);
+  font-size: 0.85rem;
+  min-width: 16px;
 }
 
-.asteroid-card.peligroso .asteroid-info li i {
+.asteroid-card.peligroso .asteroid-info li i,
+.asteroid-badge i {
   color: #e05555;
+}
+
+/* ESTILOS DE PAGINACIÓN */
+.asteroids-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 0;
+  margin-top: 3rem;
+  border-top: 1px solid #1e2d3d;
+}
+
+#asteroidPageInfo {
+  font-size: 0.95rem;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  min-width: 150px;
+  text-align: center;
+}
+
+#prevAsteroidBtn,
+#nextAsteroidBtn {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: #0b34e9;
+  color: var(--color-white);
+  border: 2px solid #0b34e9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#prevAsteroidBtn:hover:not(:disabled),
+#nextAsteroidBtn:hover:not(:disabled) {
+  background-color: transparent;
+  box-shadow: 0 0 20px #0b34e966;
+  transform: translateY(-2px);
+}
+
+#prevAsteroidBtn:disabled,
+#nextAsteroidBtn:disabled {
+  background-color: #1e2d3d;
+  border-color: #1e2d3d;
+  color: #6b7c8f;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#prevAsteroidBtn:active:not(:disabled),
+#nextAsteroidBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .asteroids-title-container {
+    gap: 1rem;
+  }
+
+  .asteroids-title {
+    font-size: 2rem;
+  }
+
+  .safety-badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .asteroids-pagination {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #prevAsteroidBtn,
+  #nextAsteroidBtn {
+    width: 100%;
+  }
+
+  .asteroids-list {
+    grid-template-columns: 1fr;
+  }
 }

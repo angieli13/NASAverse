@@ -13,17 +13,27 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    
   </head>
 
   <body>
     <header id="header"></header>
 
     <main class="asteroids-container">
-      <h1 class="asteroids-title">Asteroides Cercanos</h1>
+      <div class="asteroids-title-container">
+        <h1 class="asteroids-title">Asteroides Cercanos</h1>
+        <div id="asteroids-safety"></div>
+      </div>
 
       <p class="asteroids-subtitle" id="rango-fechas"></p>
 
       <div id="asteroids-list" class="asteroids-list"></div>
+      
+      <div class="asteroids-pagination">
+        <button id="prevAsteroidBtn">Anterior</button>
+        <span id="asteroidPageInfo"></span>
+        <button id="nextAsteroidBtn">Siguiente</button>
+      </div>
     </main>
 
     <footer id="footer"></footer>
