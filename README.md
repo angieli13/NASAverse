@@ -140,6 +140,7 @@ https://github.com/
 
 # 7. Estructura del proyecto
 
+```
 ├───public
 │       bhome.gif
 │       logo.gif
@@ -203,7 +204,7 @@ https://github.com/
             gibs.css
             global.css
             layout.css
-
+```
 
 ---
 
