@@ -1,194 +1,161 @@
+import "../styles/exoplanets.css";
+const API_URL =
+"https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&format=json&where=koi_prad<2 and koi_teq>180 and koi_teq<303 and koi_disposition like 'CANDIDATE'";
 
-const API_BASE = 'https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI';
+let planetsData = [];
+let currentPage = 1;
+const perPage = 9;
 
+export async function obtenerExoplanetas() {
 
-const QUERIES = {
-  kepler: {
-    table: 'exoplanets',
-    where: 'pl_kepflag=1',
-    label: 'Kepler Confirmados'
-  },
-  transit: {
-    table: 'exoplanets',
-    where: 'pl_tranflag=1',
-    label: 'En Tránsito'
-  },
-  habitable: {
-    table: 'exoplanets',
-    where: 'pl_rade<1.6 and pl_eqt>200 and pl_eqt<300',
-    label: 'Potencialmente Habitables'
-  }
-};
+const grid = document.getElementById("exoplanet-grid");
+const loading = document.getElementById("loading");
+const error = document.getElementById("error");
 
-// Estado de la aplicación
-let appState = {
-  planets: [],
-  currentFilter: 'kepler'
-};
+try {
 
-// DOM Elements
-const container = document.getElementById('exoplanet-container');
-const filterSelect = document.getElementById('filter-type');
-const searchBtn = document.getElementById('search-btn');
-const clearBtn = document.getElementById('clear-btn');
-const loadingDiv = document.getElementById('loading');
-const errorDiv = document.getElementById('error');
-const resultsInfo = document.getElementById('results-info');
-const planetsGrid = document.getElementById('planets-grid');
-const planetCount = document.getElementById('planet-count');
+loading.classList.remove("hidden");
 
-// Event Listeners
-searchBtn.addEventListener('click', handleSearch);
-clearBtn.addEventListener('click', handleClear);
-filterSelect.addEventListener('change', (e) => {
-  appState.currentFilter = e.target.value;
+const response = await fetch(API_URL);
+
+if (!response.ok) {
+throw new Error("Error " + response.status);
+}
+
+planetsData = await response.json();
+
+loading.classList.add("hidden");
+
+mostrarPagina();
+
+activarBusqueda();
+activarPaginacion();
+
+} catch (err) {
+
+loading.classList.add("hidden");
+
+error.textContent = "Error loading exoplanets";
+error.classList.remove("hidden");
+
+console.error(err);
+
+}
+
+}
+
+function mostrarPagina() {
+
+const grid = document.getElementById("exoplanet-grid");
+
+grid.innerHTML = "";
+
+const start = (currentPage - 1) * perPage;
+const end = start + perPage;
+
+const planets = planetsData.slice(start, end);
+
+planets.forEach(planet => {
+
+const card = document.createElement("div");
+card.className = "exo-card";
+
+card.innerHTML = `
+
+<h3>${planet.kepoi_name || "Unknown Planet"}</h3>
+
+<div class="exo-info">
+
+<p><span>Radius</span>${planet.koi_prad || "N/A"} Earth</p>
+
+<p><span>Temperature</span>${planet.koi_teq || "N/A"} K</p>
+
+<p><span>Orbital Period</span>${planet.koi_period || "N/A"} days</p>
+
+<p><span>Status</span>${planet.koi_disposition}</p>
+
+</div>
+
+`;
+
+grid.appendChild(card);
+
 });
 
-// Cargar datos al iniciar
-document.addEventListener('DOMContentLoaded', () => {
-  handleSearch();
+actualizarPaginacion();
+
+}
+
+function activarBusqueda(){
+
+const search = document.getElementById("searchPlanet");
+
+search.addEventListener("input", e => {
+
+const text = e.target.value.toLowerCase();
+
+const filtrados = planetsData.filter(p =>
+(p.kepoi_name || "").toLowerCase().includes(text)
+);
+
+mostrarFiltrados(filtrados);
+
 });
 
-// Función principal de búsqueda
-async function handleSearch() {
-  const filterType = appState.currentFilter;
-  const query = QUERIES[filterType];
-
-  showLoading(true);
-  hideError();
-
-  try {
-    const data = await fetchExoplanets(query);
-    appState.planets = data;
-    renderPlanets(data);
-    showResults(data.length);
-  } catch (error) {
-    showError(error.message);
-    console.error('Error fetching exoplanets:', error);
-  } finally {
-    showLoading(false);
-  }
 }
 
+function mostrarFiltrados(planets){
 
-async function fetchExoplanets(query) {
-  const params = new URLSearchParams({
-    table: query.table,
-    format: 'json',
-    where: query.where,
-    order: 'pl_eqt asc'
-  });
+const grid = document.getElementById("exoplanet-grid");
 
-  const url = `${API_BASE}?${params.toString()}`;
+grid.innerHTML="";
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: No se pudo conectar a la API`);
-  }
+planets.slice(0,20).forEach(planet=>{
 
-  const data = await response.json();
-  return data;
+const card=document.createElement("div");
+card.className="exo-card";
+
+card.innerHTML=`
+
+<h3>${planet.kepoi_name}</h3>
+
+<p>Radius: ${planet.koi_prad || "N/A"} Earth</p>
+
+<p>Temperature: ${planet.koi_teq || "N/A"} K</p>
+
+<p>Orbital: ${planet.koi_period || "N/A"} days</p>
+
+<p>Status: ${planet.koi_disposition}</p>
+
+`;
+
+grid.appendChild(card);
+
+});
+
 }
 
-// Renderizar tarjetas de planetas
-function renderPlanets(planets) {
-  planetsGrid.innerHTML = '';
+function activarPaginacion(){
 
-  if (planets.length === 0) {
-    planetsGrid.innerHTML = '<p class="no-results">No se encontraron planetas</p>';
-    return;
-  }
+document.getElementById("nextBtn").onclick = () => {
+currentPage++;
+mostrarPagina();
+};
 
-  // Limitar a 20 resultados para mejor rendimiento visual
-  const displayPlanets = planets.slice(0, 20);
+document.getElementById("prevBtn").onclick = () => {
+if(currentPage > 1){
+currentPage--;
+mostrarPagina();
+}
+};
 
-  displayPlanets.forEach(planet => {
-    const card = createPlanetCard(planet);
-    planetsGrid.appendChild(card);
-  });
 }
 
-// Crear una tarjeta individual
-function createPlanetCard(planet) {
-  const card = document.createElement('div');
-  card.className = 'planet-card';
+function actualizarPaginacion(){
 
-  // Extraer datos, usando valores por defecto si no existen
-  const name = planet.pl_name || 'Desconocido';
-  const host = planet.hostname || 'Estrella desconocida';
-  const radius = planet.pl_rade ? planet.pl_rade.toFixed(2) : 'N/A';
-  const mass = planet.pl_bmasse ? planet.pl_bmasse.toFixed(2) : 'N/A';
-  const eqTemp = planet.pl_eqt ? Math.round(planet.pl_eqt) : 'N/A';
-  const distance = planet.sy_dist ? planet.sy_dist.toFixed(2) : 'N/A';
+const totalPages = Math.ceil(planetsData.length / perPage);
 
-  // 
-  const emoji = getEmojiForPlanet(planet);
+document.getElementById("pageInfo").textContent =
+`Page ${currentPage} of ${totalPages}`;
 
-  card.innerHTML = `
-    <div class="card-emoji">${emoji}</div>
-    <h3 class="planet-name">${name}</h3>
-    <p class="planet-host">⭐ ${host}</p>
-    
-    <div class="planet-stats">
-      <div class="stat">
-        <span class="stat-label">Radio</span>
-        <span class="stat-value">${radius} R⊕</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">Masa</span>
-        <span class="stat-value">${mass} M⊕</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">Temp Eq.</span>
-        <span class="stat-value">${eqTemp} K</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">Distancia</span>
-        <span class="stat-value">${distance} pc</span>
-      </div>
-    </div>
-  `;
-
-  return card;
-}
-
-
-function getEmojiForPlanet(planet) {
-  const radius = planet.pl_rade || 0;
-  const temp = planet.pl_eqt || 0;
-
-  if (radius < 1.25 && temp > 200 && temp < 300) return '🟢'; // Potencialmente habitable
-  if (radius > 9) return '🟠'; // Júpiter-like
-  if (radius < 2) return '⚪'; // Tierra-like
-  if (temp > 1000) return '🔥'; // Muy caliente
-  if (temp < 200) return '🧊'; // Muy frío
-
-  return '🌍';
-}
-
-// Limpiar resultados
-function handleClear() {
-  appState.planets = [];
-  planetsGrid.innerHTML = '';
-  resultsInfo.classList.add('hidden');
-  errorDiv.classList.add('hidden');
-}
-
-// Utilidades de UI
-function showLoading(show) {
-  loadingDiv.classList.toggle('hidden', !show);
-}
-
-function showError(message) {
-  errorDiv.textContent = `❌ Error: ${message}`;
-  errorDiv.classList.remove('hidden');
-}
-
-function hideError() {
-  errorDiv.classList.add('hidden');
-}
-
-function showResults(count) {
-  planetCount.textContent = count;
-  resultsInfo.classList.remove('hidden');
 }

@@ -1,32 +1,34 @@
-<div id="exoplanet-container">
-  <div class="exo-header">
-    <h1>🌍 Exoplanet Explorer</h1>
-    <p class="subtitle">Descubre planetas fuera de nuestro sistema solar</p>
-  </div>
+<section class="exo-page">
 
-  <div class="exo-filters">
-    <div class="filter-group">
-      <label for="filter-type">Tipo de búsqueda:</label>
-      <select id="filter-type">
-        <option value="kepler">Planetas Kepler confirmados</option>
-        <option value="transit">Planetas en tránsito</option>
-        <option value="habitable">Potencialmente habitables</option>
-      </select>
-    </div>
-    <button id="search-btn" class="btn-search">🔍 Buscar</button>
-    <button id="clear-btn" class="btn-clear">✕ Limpiar</button>
-  </div>
+<h1 class="exo-title">Habitable Exoplanet Candidates</h1>
 
-  <div id="loading" class="loading hidden">
-    <div class="spinner"></div>
-    <p>Buscando exoplanetas...</p>
-  </div>
+<p class="exo-subtitle">
+Potential Earth-like planets discovered by NASA missions
+</p>
 
-  <div id="error" class="error hidden"></div>
+<div class="exo-controls">
 
-  <div id="results-info" class="results-info hidden">
-    <p>Se encontraron <span id="planet-count">0</span> planetas</p>
-  </div>
+<input 
+type="text" 
+id="searchPlanet" 
+placeholder="Search planet..."
+class="exo-search"
+/>
 
-  <div id="planets-grid" class="planets-grid"></div>
 </div>
+
+<div id="loading" class="exo-loading">
+Loading exoplanets...
+</div>
+
+<div id="error" class="exo-error hidden"></div>
+
+<div id="exoplanet-grid" class="exo-grid"></div>
+
+<div class="exo-pagination">
+<button id="prevBtn">Previous</button>
+<span id="pageInfo"></span>
+<button id="nextBtn">Next</button>
+</div>
+
+</section>
