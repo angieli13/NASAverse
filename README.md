@@ -1,3 +1,5 @@
+![NASAverse Header](public/header.gif)
+
 # NASAverse - API con Node.js y Vite
 
 ## Índice
@@ -15,7 +17,6 @@
 
 # 1. Introducción
 
-![NASAverse Header](public/header.gif)
 
 **NASAverse** es una aplicación web que consume APIs públicas de la NASA para mostrar información astronómica en tiempo real.
 
