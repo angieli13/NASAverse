@@ -15,6 +15,8 @@
 
 # 1. Introducción
 
+![NASAverse Header](public/header.gif)
+
 **NASAverse** es una aplicación web que consume APIs públicas de la NASA para mostrar información astronómica en tiempo real.
 
 El objetivo del proyecto es permitir a los usuarios explorar diferentes datos espaciales como:
@@ -51,6 +53,8 @@ Tomado de: https://api.nasa.gov/
 ---
 
 # 3. Branding
+
+![NASAverse Branding](public/branding.png)
 
 ---
 
@@ -142,7 +146,11 @@ https://github.com/
 
 ```
 ├───public
+│       asteroid.png
+│       background.gif
 │       bhome.gif
+│       branding.png
+│       header.gif
 │       logo.gif
 │       vite.svg
 │
@@ -175,32 +183,6 @@ https://github.com/
             apod.css
             asteroids.css
             exoplanets.css
-            gibs.css
-    │
-    ├───pages
-    │       apod.html
-    │       asteroids.html
-    │       exoplanets.html
-    │       gibs.html
-    │       home.html
-    │
-    └───styles
-            apod.css
-            asteroids.css
-            exoplanets.css
-            gibs.css
-    ├───pages
-    │       apod.html
-    │       asteroids.html
-    │       exoplanets.html
-    │       gibs.html
-    │       home.html
-    │
-    └───styles
-            apod.css
-            asteroids.css
-            exoplanets.css
-            gibs.css
             gibs.css
             global.css
             layout.css
