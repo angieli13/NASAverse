@@ -1,0 +1,67 @@
+.apod-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.apod-title {
+  font-family: var(--font-titulo);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+  text-align: center;
+  text-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.apod-date {
+  font-family: var(--font-texto);
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  display: block;
+  text-align: center;
+}
+
+.apod-content {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  align-items: center;
+}
+
+.apod-image-wrapper {
+  width: 55%;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid #0b34e9;
+  box-shadow: 0 0 40px #0b34e933, 0 0 80px #0b34e911;
+  order: 2;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.apod-image-wrapper:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 60px #0b34e966, 0 0 100px #0b34e922;
+}
+
+.apod-image-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.apod-description {
+  font-size: 1.05rem;
+  line-height: 2;
+  color: #c8d6e5;
+  order: 1;
+  flex: 1;
+  border-left: 3px solid #0b34e9;
+  padding-left: 1.5rem;
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Asteroides | NASAverse</title>
+
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/asteroids.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    
+  </head>
+
+  <body>
+    <header id="header"></header>
+
+    <main class="asteroids-container">
+      <div class="asteroids-title-container">
+        <h1 class="asteroids-title">Asteroides Cercanos</h1>
+        <div id="asteroids-safety"></div>
+      </div>
+
+      <p class="asteroids-subtitle" id="rango-fechas"></p>
+
+      <div id="asteroids-list" class="asteroids-list"></div>
+      
+      <div class="asteroids-pagination">
+        <button id="prevAsteroidBtn">Anterior</button>
+        <span id="asteroidPageInfo"></span>
+        <button id="nextAsteroidBtn">Siguiente</button>
+      </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="../components/footer.js"></script>
+  </body>
+</html>
