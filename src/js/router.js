@@ -1,30 +1,19 @@
-const routes = {
-  "/": "/src/pages/home.html",
-  "/apod": "/src/pages/apod.html",
-  "/asteroids": "/src/pages/asteroids.html",
-  "/exoplanets": "/src/pages/exoplanets.html",
-  "/gibs": "/src/pages/gibs.html",
-};
+import { getRoute } from './routes.js';
 
 async function loadPage(path) {
-  const page = routes[path] || routes["/"];
+  const page = getRoute(path);
   const appElement = document.getElementById("app");
   const body = document.body;
 
   try {
     const response = await fetch(page);
     const html = await response.text();
-
     appElement.innerHTML = html;
 
-    // Agregar-remover clase 
-    if (path === "/") {
-      body.classList.add("home-page-active");
-    } else {
-      body.classList.remove("home-page-active");
-    }
+    if (path === "/") body.classList.add("home-page-active");
+    else body.classList.remove("home-page-active");
 
-    // Ejecutar funciones específicas de cada página
+    // Ejecutar funciones específicas
     if (path === "/apod") {
       const { obtenerImagen } = await import('./apod.js');
       obtenerImagen();
@@ -52,8 +41,6 @@ function navigate(path) {
   loadPage(path);
 }
 
-window.addEventListener("popstate", () => {
-  loadPage(window.location.pathname);
-});
+window.addEventListener("popstate", () => loadPage(window.location.pathname));
 
 export { navigate, loadPage };
