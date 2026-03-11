@@ -7,13 +7,17 @@ async function loadPage(path) {
 
   try {
     const response = await fetch(page);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const html = await response.text();
+
     appElement.innerHTML = html;
+
+    // Espera a que el DOM se actualice antes de manipularlo
+    await new Promise(resolve => requestAnimationFrame(resolve));
 
     if (path === "/") body.classList.add("home-page-active");
     else body.classList.remove("home-page-active");
 
-    // Ejecutar funciones específicas
     if (path === "/apod") {
       const { obtenerImagen } = await import('./apod.js');
       obtenerImagen();

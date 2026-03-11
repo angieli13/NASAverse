@@ -46,5 +46,5 @@ export async function obtenerImagen() {
   }
 
 }
-document.addEventListener("DOMContentLoaded", obtenerImagen);
+
 
