@@ -8,18 +8,39 @@ const routes = {
 
 async function loadPage(path) {
   const page = routes[path] || routes["/"];
+  const appElement = document.getElementById("app");
+  const body = document.body;
 
   try {
     const response = await fetch(page);
     const html = await response.text();
 
-    document.getElementById("app").innerHTML = html;
+    appElement.innerHTML = html;
 
-    
-    if (path === "/apod") obtenerImagen();
-    if (path === "/asteroids") obtenerAsteroids();
-    if (path === "/exoplanets") obtenerExoplanetas();
-    if (path === "/gibs") obtenerGibs();
+    // Agregar/remover clase home-page-active al body
+    if (path === "/") {
+      body.classList.add("home-page-active");
+    } else {
+      body.classList.remove("home-page-active");
+    }
+
+    // Ejecutar funciones específicas de cada página
+    if (path === "/apod") {
+      const { obtenerImagen } = await import('./apod.js');
+      obtenerImagen();
+    }
+    if (path === "/asteroids") {
+      const { obtenerAsteroids } = await import('./asteroids.js');
+      obtenerAsteroids();
+    }
+    if (path === "/exoplanets") {
+      const { obtenerExoplanetas } = await import('./exoplanets.js');
+      obtenerExoplanetas();
+    }
+    if (path === "/gibs") {
+      const { obtenerGibs } = await import('./gibs.js');
+      obtenerGibs();
+    }
 
   } catch (error) {
     console.error("Error cargando la página:", error);
@@ -35,9 +56,4 @@ window.addEventListener("popstate", () => {
   loadPage(window.location.pathname);
 });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadPage(window.location.pathname);
-});
-
-export { navigate };
+export { navigate, loadPage };

@@ -12,16 +12,17 @@
   --color-white: #ffffff;
   --color-accent: #4fa3e0;
   --color-accent-glow: #4fa3e033;
+  --color-highlight: #0b34e9;
   --font-titulo: 'Bebas Neue', sans-serif;
   --font-texto: 'DM Sans', sans-serif;
 }
 
 html, body {
-  background-color: var(--bg-primary);
   color: var(--color-white);
   font-family: var(--font-texto);
   min-height: 100vh;
   scroll-behavior: smooth;
+  background-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {
