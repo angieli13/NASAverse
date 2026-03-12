@@ -13,6 +13,12 @@ export async function obtenerImagen() {
 
     console.log("APOD:", datos);
 
+  
+    if (datos.code === 500 || !datos.date) {
+      mostrarError();
+      return;
+    }
+
     const fecha = new Date(datos.date);
 
     const fechaFormateada = fecha.toLocaleDateString("es-ES", {
@@ -28,23 +34,26 @@ export async function obtenerImagen() {
     const imagen = document.getElementById("imagen");
 
     if (datos.media_type === "image") {
-
       imagen.src = datos.url;
       imagen.alt = datos.title;
-
     } else {
-
       document.querySelector(".apod-image-wrapper").innerHTML =
         `<iframe src="${datos.url}" frameborder="0" allowfullscreen></iframe>`;
-
     }
 
   } catch (error) {
 
     console.error("Error APOD:", error);
+    mostrarError();
 
   }
 
 }
 
-
+function mostrarError() {
+  document.getElementById("fecha").textContent = "";
+  document.getElementById("titulo").textContent = "Sin datos disponibles";
+  document.getElementById("descripcion").innerHTML =
+    `<i class="fa-solid fa-satellite"></i> La NASA no ha cargado los datos del día de hoy. Vuelve más tarde`;
+  document.querySelector(".apod-image-wrapper").style.display = "none";
+}
